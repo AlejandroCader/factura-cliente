@@ -1,4 +1,4 @@
-package com.app.facturacliente.controllers;
+package com.app.facturacliente.util;
 
 import com.app.facturacliente.util.PageItem;
 import org.springframework.data.domain.Page;
@@ -20,7 +20,7 @@ public class PageRender <T>{
         this.url = url;
         this.page = page;
         this.paginas = new ArrayList<>();
-        numElementosPorPagina = page.getSize(); //es el numero de paginas que declaramos anteriormente en el Controller del cliente
+        numElementosPorPagina = 6; //es el numero de paginas que declaramos anteriormente en el Controller del cliente
         totalPaginas = page.getTotalPages();
         paginaActual = page.getNumber() + 1;
         int desde, hasta;
@@ -86,5 +86,8 @@ public class PageRender <T>{
 
     public boolean isHasNext(){
         return page.hasNext();
+    }
+    public boolean isHasPrevious(){
+        return page.hasPrevious();
     }
 }
