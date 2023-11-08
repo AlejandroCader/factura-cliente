@@ -119,4 +119,12 @@ public class ClienteController {
         }
         return "redirect:/listar";
     }
+
+    @RequestMapping(value = "/formulario")
+    public String crearFormulario(Map<String, Object> model){
+        Cliente cliente = new Cliente();
+        model.put("cliente", cliente);
+        model.put("titulo", "Formulario de Cliente");
+        return "formulario";
+    }
 }

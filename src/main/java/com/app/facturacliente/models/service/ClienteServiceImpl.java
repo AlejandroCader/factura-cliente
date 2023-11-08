@@ -1,8 +1,10 @@
 package com.app.facturacliente.models.service;
 
 import com.app.facturacliente.models.dao.IClienteDao;
+import com.app.facturacliente.models.dao.IFacturaDao;
 import com.app.facturacliente.models.dao.IProductoDao;
 import com.app.facturacliente.models.entity.Cliente;
+import com.app.facturacliente.models.entity.Factura;
 import com.app.facturacliente.models.entity.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,18 +15,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
-public class ClienteServiceImpl implements IClienteService{
 
-    @Autowired
-    private IProductoDao productoDao;
+@Service
+public class ClienteServiceImpl implements IClienteService {
+
     @Autowired
     private IClienteDao clienteDao;
 
+    @Autowired
+    private IProductoDao productoDao;
+
+    @Autowired
+    private IFacturaDao facturaDao;
+
     @Override
     @Transactional(readOnly = true)
-    public List<Cliente> findAll(){
+    public List<Cliente> findAll() {
+        // TODO Auto-generated method stub
         return (List<Cliente>) clienteDao.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void save(Cliente cliente) {
+        clienteDao.save(cliente);
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Cliente findOne(Long id) {
+        // TODO Auto-generated method stub
+        return clienteDao.findById(id).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        clienteDao.deleteById(id);
+
     }
 
     @Override
@@ -34,26 +63,21 @@ public class ClienteServiceImpl implements IClienteService{
     }
 
     @Override
-    @Transactional
-    public void save(Cliente cliente) {
-        clienteDao.save(cliente);
-    }
-
-    @Override
     @Transactional(readOnly = true)
-    public Cliente findOne(Long id) {
-        return clienteDao.findById(id).orElse(null);
+    public List<Producto> findByNombre(String term) {
+        return productoDao.findByNombreLikeIgnoreCase("%" + term + "%");
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        clienteDao.deleteById(id);
+    public void saveFactura(Factura factura) {
+        facturaDao.save(factura);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Producto> findByNombre(String term){
-        return productoDao.findByNombre("%" + term + "%");
+    @Transactional(readOnly=true)
+    public Producto findProductoById(Long id) {
+        // TODO Auto-generated method stub
+        return productoDao.findById(id).orElse(null);
     }
 }
